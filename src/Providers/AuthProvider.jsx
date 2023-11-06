@@ -28,9 +28,9 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const updateNameAndPhoto = (profile) => {
+  const updateNameAndPhoto = (displayName, photoURL) => {
     setLoading(true);
-    return updateProfile(auth.currentUser, profile);
+    return updateProfile(auth.currentUser, { displayName, photoURL });
   };
 
   const googleLogin = (googleProvider) => {
@@ -46,6 +46,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       console.log("observed");
+      console.log(currentUser);
       setUser(currentUser);
       setLoading(false);
     });

@@ -1,6 +1,54 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import toast from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const Register = () => {
+  const { createUser, updateNameAndPhoto } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const photoURL = form.photoURL.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    console.log(name, photoURL, email, password);
+
+    if (password.length < 6) {
+      toast.error("password should be 6 character");
+      return;
+    } else if (!/[A-Z]/.test(password)) {
+      toast.error("Atleast one uppercase needed");
+      return;
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      toast.error("At least one special character needed");
+      return;
+    }
+
+    
+    createUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        updateNameAndPhoto(name, photoURL)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => console.log(error));
+
+        Swal.fire("Registration Completed!", "Press ok to Continue", "success");
+        form.reset();
+        navigate(location?.state ? location.state : "/");
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire("Email already exist", "Press ok to try again", "error");
+      });
+  };
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <div className="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 md:rounded-xl w-50 ">
@@ -12,7 +60,7 @@ const Register = () => {
         </div>
 
         <div className="mt-10">
-          <form >
+          <form onSubmit={handleRegister}>
             <div className="flex flex-col mb-5">
               <label
                 htmlFor="name"
@@ -25,8 +73,7 @@ const Register = () => {
                   <i className="fas fa-user text-blue-500"></i>
                 </div>
                 <input
-                  id="name"
-                  type="url"
+                  type="text"
                   name="photoURL"
                   className="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                   placeholder="Paste URL"
@@ -45,7 +92,6 @@ const Register = () => {
                   <i className="fas fa-user text-blue-500"></i>
                 </div>
                 <input
-                  id="name"
                   type="text"
                   name="name"
                   className="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
@@ -65,7 +111,6 @@ const Register = () => {
                   <i className="fas fa-at text-blue-500"></i>
                 </div>
                 <input
-                  id="email"
                   type="email"
                   name="email"
                   className="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
@@ -87,7 +132,6 @@ const Register = () => {
                   </span>
                 </div>
                 <input
-                  id="password"
                   type="password"
                   name="password"
                   className="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"

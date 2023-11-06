@@ -17,18 +17,17 @@ const Login = () => {
     const password = form.password.value;
     console.log(email, password);
 
-
     signIn(email, password)
       .then((result) => {
         console.log(result.user);
-        
+
         e.target.reset();
         toast.success("Successfully Login");
         navigate(location?.state ? location.state : "/");
       })
       .catch((error) => {
         console.log(error);
-        
+
         toast.error("Wrong email or password");
       });
   };
@@ -48,7 +47,10 @@ const Login = () => {
         <div className="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">
           Login To Your Account
         </div>
-        <button onClick={handleGoogleLogin} className="mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200 text-center flex justify-center gap-2">
+        <button
+          onClick={handleGoogleLogin}
+          className="mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200 text-center flex justify-center gap-2"
+        >
           <span>
             <svg
               className=" text-center"
