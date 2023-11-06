@@ -2,8 +2,21 @@
 import { NavLink } from "react-router-dom";
 import logo from "../../src/assets/logo.png";
 import { FaUserCircle } from "react-icons/fa";
+import { useContext } from "react";
+import { AuthContext } from "../Providers/AuthProvider";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    logOut()
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div className="navbar bg-red-200">
       <div className="navbar-start">
@@ -63,19 +76,38 @@ const Navbar = () => {
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="text-2xl">
-              <FaUserCircle></FaUserCircle>
+              {user ? (
+                <div className="w-8 h-8 rounded-full">
+                  <img src={user?.photoURL} alt="" className="w-8 h-8 rounded-full" />
+                </div>
+              ) : (
+                <FaUserCircle></FaUserCircle>
+              )}
             </div>
           </label>
           <ul
             tabIndex={0}
             className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
-            <li>
-              <NavLink to="/login">Login</NavLink>
-            </li>
-            <li>
-              <NavLink to="/register">Register</NavLink>
-            </li>
+            {user ? (
+              <>
+                <li>
+                  <p className="text-center">{user.displayName}</p>
+                </li>
+                <li>
+                  <NavLink onClick={handleLogOut}>Log Out</NavLink>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <NavLink to="/login">Login</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/register">Register</NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
@@ -84,3 +116,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
