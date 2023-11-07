@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import Carousel from "./Carousel";
+import Carousels from "./Carousels";
+
 
 
 
@@ -19,7 +20,7 @@ const Banner = () => {
                     </div>
                     <div className='' data-aos="fade-up"
                         data-aos-duration="2000">
-                        <Carousel></Carousel>
+                        <Carousels></Carousels>
                     </div>
                 </div>
             </div>
