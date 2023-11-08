@@ -3,32 +3,40 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { GoogleAuthProvider } from "firebase/auth";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const Login = () => {
   const { signIn, googleLogin } = useContext(AuthContext);
   const googleProvider = new GoogleAuthProvider();
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
 
     signIn(email, password)
       .then((result) => {
-        console.log(result.user);
+        const loggedInUser = result.user;
+        console.log(loggedInUser);
+        const user = { email };
 
-        e.target.reset();
-        toast.success("Successfully Login");
-        navigate(location?.state ? location.state : "/");
+        // get access token
+        axios
+          .post("http://localhost:5000/jwt", user, { withCredentials: true })
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.success) {
+              toast.success("successfully login");
+              navigate(location?.state ? location?.state : "/");
+            }
+          });
       })
       .catch((error) => {
         console.log(error);
-
-        toast.error("Wrong email or password");
+        toast.error("wrong email/password");
       });
   };
 
