@@ -3,8 +3,8 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { Carousel } from "react-responsive-carousel";
 import { BsStarHalf } from "react-icons/bs";
-import axios from "axios";
-import { Swal } from "sweetalert2/dist/sweetalert2.all";
+
+
 
 const RoomDetails = () => {
   const room = useLoaderData();
@@ -36,27 +36,20 @@ const RoomDetails = () => {
     };
     console.log(bookingItem);
 
-    axios
-      .post("http://localhost:5000/create-booking", bookingItem, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        const data = response.data;
-        console.log(data);
-        if (data.insertedId) {
-          Swal.fire({
-            title: "Success!",
-            text: "Item added to cart",
-            icon: "success",
-            confirmButtonText: "OK",
-          });
+    fetch(
+        "http://localhost:5000/bookings",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(bookingItem),
         }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
   };
   return (
     <div className="card bg-base-100 shadow-xl w-3/4 mx-auto">

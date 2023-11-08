@@ -24,15 +24,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/bookings",
-        element: <PrivateRoute>
-          <MyBookings></MyBookings>
-        </PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <MyBookings></MyBookings>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/roomDetails/:id",
         element: (
           <PrivateRoute>
-            <RoomDetails/>
+            <RoomDetails />
           </PrivateRoute>
         ),
         loader: async ({ params }) => {
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
           const data = await response.json();
           return data;
         },
+      },
+      {
+        path: "/myBookings/:id",
+        element: (
+          <PrivateRoute>
+            <MyBookings></MyBookings>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/login",
