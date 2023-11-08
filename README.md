@@ -8,3 +8,7 @@ client side live link : https://go-book-hotel.web.app/
 ## User Booking
 ## Animation on scroll
 ## Axios
+## express 
+## node
+## tailwind css
+## daisyUI
