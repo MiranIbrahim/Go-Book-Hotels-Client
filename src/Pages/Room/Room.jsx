@@ -7,7 +7,7 @@ const Room = () => {
   const [sortBy, setSortBy] = useState("asc");
 
   useEffect(() => {
-    let url = "http://localhost:5000/rooms";
+    let url = "https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/rooms";
 
   if (sortBy) {
     url += `?sort=${sortBy}`;

@@ -25,7 +25,7 @@ const Login = () => {
 
         // get access token
         axios
-          .post("http://localhost:5000/jwt", user, { withCredentials: true })
+          .post("https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/jwt", user, { withCredentials: true })
           .then((res) => {
             console.log(res.data);
             if (res.data.success) {

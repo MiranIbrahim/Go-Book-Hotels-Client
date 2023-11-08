@@ -9,7 +9,7 @@ const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
   const email = user.email;
   console.log(email);
-  const url = `http://localhost:5000/bookings?email=${email}`;
+  const url = `https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/bookings?email=${email}`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
@@ -28,7 +28,7 @@ const MyBookings = () => {
       confirmButtonText: "Yes, remove it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/bookings/${_id}`, {
+        fetch(`https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/bookings/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -45,13 +45,13 @@ const MyBookings = () => {
     });
   };
 
-  const handleUpdateBooking = (id) => {
-    fetch(`http://localhost:5000/bookings/${id}`, {
+  const handleUpdateBooking = (id, newDate) => {
+    fetch(`https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/bookings/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ status: "confirm" }),
+      body: JSON.stringify(),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -59,7 +59,7 @@ const MyBookings = () => {
         if (data.modifiedCount > 0) {
           const remaining = bookings.filter((booking) => booking._id !== id);
           const updated = bookings.find((booking) => booking._id === id);
-          updated.status = "confirm";
+          updated.date = newDate;
           const newBookings = [updated, ...remaining];
           setBookings(newBookings);
         }
@@ -92,7 +92,7 @@ const MyBookings = () => {
                 key={booking._id}
                 booking={booking}
                 handleDelete={handleDelete}
-                handleBookingConfirm={handleUpdateBooking}
+                handleUpdateBooking={handleUpdateBooking}
               ></BookingTable>
             ))}
           </tbody>
