@@ -2,7 +2,7 @@ Client git repo : https://github.com/Porgramming-Hero-web-course/b8a11-client-si
 
 client side live link : https://go-book-hotel.web.app/
 
-## Mondodb for database
+## Mongodb for database
 ## JWT for token
 ## firebase Authentication
 ## User Booking
