@@ -7,6 +7,7 @@ import NotFound from "../Pages/NotFound/NotFound";
 import Login from "../Pages/Authentication/Login";
 import Register from "../Pages/Authentication/Register";
 import PrivateRoute from "./PrivateRoute";
+import RoomDetails from "../Pages/Room/RoomDetails";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,21 @@ const router = createBrowserRouter([
         element: <PrivateRoute>
           <MyBookings></MyBookings>
         </PrivateRoute>,
+      },
+      {
+        path: "/roomDetails/:id",
+        element: (
+          <PrivateRoute>
+            <RoomDetails/>
+          </PrivateRoute>
+        ),
+        loader: async ({ params }) => {
+          const response = await fetch(
+            `http://localhost:5000/rooms/${params.id}`
+          );
+          const data = await response.json();
+          return data;
+        },
       },
       {
         path: "/login",
