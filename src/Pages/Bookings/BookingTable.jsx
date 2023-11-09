@@ -1,11 +1,12 @@
 import { useState } from "react";
+import ReviewForm from "./ReviewForm";
 
 const BookingTable = ({ booking, handleDelete, handleUpdateBooking }) => {
   const { _id, image, price_per_night, room_size, date } = booking;
   const [newDate, setNewDate] = useState("");
 
   return (
-    <tr>
+    <tr className="text-center">
       <th>
         <button
           onClick={() => handleDelete(_id)}
@@ -37,15 +38,21 @@ const BookingTable = ({ booking, handleDelete, handleUpdateBooking }) => {
       <td>{room_size}</td>
       <td>{date}</td>
       <td>${price_per_night}</td>
-      <th>
-        <input defaultValue={date} type='date' onBlur={(e) => setNewDate(e.target.value)}/>
+      <th className="flex flex-col justify-center items-center">
+        <input
+          className="mt-4"
+          defaultValue={date}
+          type="date"
+          onBlur={(e) => setNewDate(e.target.value)}
+        />
         <button
           onClick={() => handleUpdateBooking(_id, newDate)}
-          className="btn btn-ghost btn-xs"
+          className="btn btn-primary btn-xs"
         >
           Change Date
         </button>
       </th>
+      <ReviewForm booking={booking}></ReviewForm>
     </tr>
   );
 };

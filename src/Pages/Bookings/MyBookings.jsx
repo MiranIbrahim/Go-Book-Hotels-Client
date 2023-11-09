@@ -75,20 +75,19 @@ const MyBookings = () => {
       <div>
       <h2 className="text-5xl">Your bookings: {bookings.length}</h2>
       <div className="overflow-x-auto w-full">
-        <table className="table w-full">
+        <table className="table w-full text-center">
           {/* head */}
           <thead>
             <tr>
               <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
+                Cancel
               </th>
               <th>Image</th>
               <th>Room size</th>
               <th>Date</th>
               <th>Price</th>
-              <th>Status</th>
+              <th>Update date</th>
+              <th>Give review</th>
             </tr>
           </thead>
           <tbody>
