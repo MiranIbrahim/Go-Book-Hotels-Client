@@ -3,13 +3,14 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import BookingTable from "./BookingTable";
 
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
   const email = user.email;
-  console.log(email);
-  const url = `https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/bookings?email=${email}`;
+  console.log(user, email);
+  const url = `http://localhost:5000/bookings?email=${email}`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
@@ -28,7 +29,7 @@ const MyBookings = () => {
       confirmButtonText: "Yes, remove it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/bookings/${_id}`, {
+        fetch(`http://localhost:5000/bookings/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -46,7 +47,7 @@ const MyBookings = () => {
   };
 
   const handleUpdateBooking = (id, newDate) => {
-    fetch(`https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/bookings/${id}`, {
+    fetch(`http://localhost:5000/bookings/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -68,6 +69,10 @@ const MyBookings = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Bookings</title>
+      </Helmet>
+      <div>
       <h2 className="text-5xl">Your bookings: {bookings.length}</h2>
       <div className="overflow-x-auto w-full">
         <table className="table w-full">
@@ -98,6 +103,7 @@ const MyBookings = () => {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 };

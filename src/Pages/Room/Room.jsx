@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import RoomCard from "./RoomCard";
+import { Helmet } from "react-helmet";
 
 const Room = () => {
   const [rooms, setRooms] = useState([]);
   const [sortBy, setSortBy] = useState("asc");
 
   useEffect(() => {
-    let url = "https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/rooms";
+    let url = "http://localhost:5000/rooms";      
 
   if (sortBy) {
     url += `?sort=${sortBy}`;
@@ -18,7 +19,11 @@ const Room = () => {
     });
   }, [sortBy]);
   return (
-    <section className="flex flex-col items-center gap-5">
+    <div>
+      <Helmet>
+        <title>Rooms</title>
+      </Helmet>
+      <section className="flex flex-col items-center gap-5">
       <select
         onChange={(e) => {
           setSortBy(e.target.value);
@@ -38,6 +43,7 @@ const Room = () => {
         ))}
       </div>
     </section>
+    </div>
   );
 };
 

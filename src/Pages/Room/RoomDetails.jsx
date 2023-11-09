@@ -37,7 +37,7 @@ const RoomDetails = () => {
     console.log(bookingItem);
 
     fetch(
-        "https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/bookings",
+        "http://localhost:5000/bookings",
         {
           method: "POST",
           headers: {

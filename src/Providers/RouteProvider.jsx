@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         ),
         loader: async ({ params }) => {
           const response = await fetch(
-            `https://go-book-hotel-server-bthxclbni-miran-ibrahims-projects.vercel.app/rooms/${params.id}`
+            `http://localhost:5000/rooms/${params.id}`
           );
           const data = await response.json();
           return data;
