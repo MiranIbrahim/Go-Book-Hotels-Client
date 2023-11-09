@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { Carousel } from "react-responsive-carousel";
@@ -11,7 +11,6 @@ const RoomDetails = () => {
   const {
     _id,
     image,
-    reviews,
     description,
     price_per_night,
     room_size,
@@ -21,10 +20,19 @@ const RoomDetails = () => {
   } = room;
 
   const [date, setDate] = useState();
+  const [reviews, setReviews] = useState([]);
   const user = useContext(AuthContext);
   const userEmail = user.user.email;
   console.log(userEmail);
   console.log(date);
+
+  const url = `http://localhost:5000/reviews?id=${_id}`;
+  useEffect(() => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => setReviews(data));
+  }, [url]);
+
   const handleBooking = (_id, image, price_per_night, room_size, date) => {
     const bookingItem = {
       _id,
@@ -212,12 +220,12 @@ const RoomDetails = () => {
                   <img src={review.author_image} alt="Avatar" />
                 </div>
               </div>
-              <h2 className="font-bold">{review.author}</h2>
+              <h2 className="font-bold">{review.name}</h2>
               <div className="flex gap-2 items-center justify-center">
                 <BsStarHalf className="text-orange-400"></BsStarHalf>
                 <small className="text-left ">{review.rating}</small>
               </div>
-              <p className="text-left">{review.comment}</p>
+              <p className="text-left">{review.feedback}</p>
             </div>
           </div>
         ))}
